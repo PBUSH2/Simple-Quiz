@@ -1,0 +1,10 @@
+﻿@using Quiz.Models
+@model QuizResult
+@{
+    ViewBag.Title = "QuizResult";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Quiz Results</h2>
+
+<h3>You got @Model.GetNumberRight() out of @Model.quiz.Count right!</h3>

@@ -1,0 +1,36 @@
+﻿@using Quiz.Models;
+@model List<Question>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Fun Quiz</h2>
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+    for (int i = 0; i < Model.Count; i++)
+
+    {
+        <div>
+            <h3>@Model[i].QuestionString</h3>
+            <p>         
+                @Html.RadioButtonFor(m => m[i].Answer, "a") a. @Model[i].Choice1
+            </p>
+            <p>
+                @Html.RadioButtonFor(m => m[i].Answer, "b") b. @Model[i].Choice2
+            </p>
+            <p>
+                @Html.RadioButtonFor(m => m[i].Answer, "c") c. @Model[i].Choice3
+            </p>
+            <p>
+                @Html.RadioButtonFor(m => m[i].Answer, "d") d. @Model[i].Choice4
+            </p>
+
+        </div>
+
+    }
+
+    <button>Submit</button>
+}
+

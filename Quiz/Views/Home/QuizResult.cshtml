@@ -8,3 +8,40 @@
 <h2>Quiz Results</h2>
 
 <h3>You got @Model.GetNumberRight() out of @Model.quiz.Count right!</h3>
+
+@for (int i = 0; i < Model.quiz.Count; i++)
+{
+    <div id="container">
+        <div >
+            <h3>@Model.quiz[i].QuestionString</h3>
+            <div id="answersdiv">
+                @if (Model.quiz[i].CorrectAnswer == "a")
+                {<p style="color: blue;">a. @Model.quiz[i].Choice1</p>}
+                else
+                { <p>a. @Model.quiz[i].Choice1</p>}
+                @if (Model.quiz[i].CorrectAnswer == "b")
+                {<p style="color: blue;">b. @Model.quiz[i].Choice2</p>}
+                else
+                { <p>b. @Model.quiz[i].Choice2</p>}
+                @if (Model.quiz[i].CorrectAnswer == "c")
+                {<p style="color: blue;">c. @Model.quiz[i].Choice3</p>}
+                else
+                { <p>c. @Model.quiz[i].Choice3</p>}
+                @if (Model.quiz[i].CorrectAnswer == "d")
+                {<p style="color: blue;">d. @Model.quiz[i].Choice4</p>}
+                else
+                { <p>d. @Model.quiz[i].Choice4</p>}
+
+            </div>
+            <div id="answerdiv">
+                @if (Model.quiz[i].Answer == Model.quiz[i].CorrectAnswer)
+                {<h2>You Answered Correctly!</h2> }
+                else
+                {
+                    <h2 id="wrong">You selected choice @Model.quiz[i].Answer, you moron</h2>
+                }
+
+            </div>
+        </div>
+    </div>
+}

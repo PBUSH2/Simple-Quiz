@@ -18,21 +18,40 @@ namespace Quiz.Controllers
         // GET: Home
         public ActionResult Index()
         {
- 
-            return View("Index", dal.GetQuestions());
+            List<Question> questionList = dal.GetQuestions();
+            Session["questionList"] = questionList;
+
+            return View("Index", questionList);
         }
         [HttpPost]
-        public ActionResult Index(List<Question> questionList)
+        public ActionResult Index(List<Question> answerList)
         {
+            List<string> selectedAnswers = new List<string>();
+            for (int i = 0; i < answerList.Count; i++)
+            {
+                selectedAnswers.Add(answerList[i].Answer);
+            }
+            List<Question> questionList = Session["questionList"] as List<Question>;
             Session["questionList"] = questionList;
+            TempData["answerList"] = selectedAnswers;
             return RedirectToAction("QuizResult");
         }
         public ActionResult QuizResult()
-        {
+        {    
             List<Question> questionList = new List<Question>();
-            questionList = Session["questionList"] as List<Question>;
+            questionList = Session["questionList"] as List<Question>;  
+            List<string> answerList = TempData["answerList"] as List<string>;
+            for (int i = 0; i < questionList.Count; i++)
+            {
+                questionList[i].Answer = answerList[i];
+            }
+
+                 
             List<string> rightAnswers = dal.GetRightAnswers();
             QuizResult quizResult = new QuizResult(questionList, rightAnswers);
+
+
+         
             
             return View("QuizResult", quizResult);
 

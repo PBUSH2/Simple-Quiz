@@ -23,17 +23,29 @@ namespace Quiz.Controllers
 
             return View("Index", questionList);
         }
+
+        
         [HttpPost]
         public ActionResult Index(List<Question> answerList)
         {
+           if(answerList == null)
+            {
+                return RedirectToAction("Index");
+            }
+
             List<string> selectedAnswers = new List<string>();
             for (int i = 0; i < answerList.Count; i++)
-            {
+            {                           
                 selectedAnswers.Add(answerList[i].Answer);
             }
             List<Question> questionList = Session["questionList"] as List<Question>;
-            Session["questionList"] = questionList;
+            //Session["questionList"] = questionList;
             TempData["answerList"] = selectedAnswers;
+
+            if(answerList.Count < questionList.Count)
+            {
+                return RedirectToAction("Index");
+            }
             return RedirectToAction("QuizResult");
         }
         public ActionResult QuizResult()
@@ -45,14 +57,10 @@ namespace Quiz.Controllers
             {
                 questionList[i].Answer = answerList[i];
             }
-
                  
             List<string> rightAnswers = dal.GetRightAnswers();
             QuizResult quizResult = new QuizResult(questionList, rightAnswers);
-
-
-         
-            
+          
             return View("QuizResult", quizResult);
 
         }
